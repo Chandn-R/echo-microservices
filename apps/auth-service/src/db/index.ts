@@ -1,5 +1,5 @@
 import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { Pool, type PoolClient } from 'pg';
+import { Pool, type PoolClient } from '../../node_modules/@types/pg/index.js';
 import * as dotenv from 'dotenv';
 import * as schema from './schema.js';
 

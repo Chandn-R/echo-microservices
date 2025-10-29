@@ -2,6 +2,10 @@
   "name": "microservices",
   "version": "1.0.0",
   "description": "",
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
   "homepage": "https://github.com/Chandn-R/echo-microservices#readme",
   "bugs": {
     "url": "https://github.com/Chandn-R/echo-microservices/issues"
@@ -18,6 +22,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "@eslint/js": "^9.38.0",
+    "eslint": "^9.38.0",
+    "globals": "^16.4.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.2"
   }
 }

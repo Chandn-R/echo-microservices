@@ -16,15 +16,15 @@ app.disable("x-powered-by"); // Hide Express server information
 // Define routes and corresponding microservices
 const services = [
     {
-        route: "/auth",
+        route: "/api/v1/auth",
         target: "http://localhost:5001",
     },
     {
-        route: "/users",
+        route: "/api/v1/users",
         target: "http://localhost:5002",
     },
     {
-        route: "/chats",
+        route: "/api/v1/chats",
         target: "http://localhost:5003",
     },
 ];
@@ -42,7 +42,6 @@ setInterval(() => {
         requestCounts[ip] = 0; // Reset request count for each IP address
     });
 }, interval);
-
 
 function rateLimitAndTimeout(req, res, next) {
     const ip = req.ip;

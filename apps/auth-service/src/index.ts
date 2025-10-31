@@ -1,14 +1,17 @@
 import * as dotenv from "dotenv";
-import { app } from "./app.js";
-import { dbPromise } from "./db/index.js";
-
 dotenv.config();
+
+import { dbPromise } from "../../../libs/db/index.js";
+import { app } from "./app.js";
+
 
 const PORT = process.env.PORT || 5001;
 
 async function server() {
-    const db = await dbPromise;
+    const { db, pool } = await dbPromise;
     console.log("Database is active");
+
+    app.locals.db = db;
 
     const server = app.listen(PORT, () => {
         console.log(`Auth Service is running on port ${PORT}`);
@@ -18,6 +21,7 @@ async function server() {
         console.log(`\nReceived ${signal}. Shutting down gracefully..`);
         server.close(async () => {
             console.log("HTTP server closed.");
+            await pool.end();
             console.log("Database pool closed.");
             process.exit(0);
         });

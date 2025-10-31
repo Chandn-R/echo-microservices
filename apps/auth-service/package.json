@@ -15,8 +15,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@types/cookie-parser": "^1.4.9",
-    "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -27,10 +25,6 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "@types/node": "^24.5.2",
-    "@types/pg": "^8.15.5",
-    "drizzle-kit": "^0.31.5"
+    "@types/cors": "^2.8.19"
   }
 }

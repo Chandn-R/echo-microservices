@@ -1,4 +1,4 @@
-import { users } from "../../db/schema.ts";
+import { users } from "../../../../../libs/db/schema.ts";
 
 declare global {
     namespace Express {

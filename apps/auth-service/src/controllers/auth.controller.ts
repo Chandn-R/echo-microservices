@@ -3,11 +3,11 @@ import asyncHandler from "../utilities/asyncHandler.js";
 import ApiError from "../utilities/apiError.js";
 import ApiResponses from "../utilities/apiResponses.js";
 import jwt from "jsonwebtoken";
-import { db } from "../db/index.js";
 import { eq, or } from "drizzle-orm";
-import { users } from "../db/schema.js";
+import { users, type NewUser, type User } from "../../../../libs/db/schema/index.js";
 import bcrypt from "bcryptjs";
 import type { StringValue } from "ms";
+
 
 const refreshToken = (id: string) => {
     return jwt.sign(
@@ -27,12 +27,13 @@ const accessToken = (id: string) => {
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
     const { name, username, email, password } = req.body;
+    const db = req.app.locals.db;
 
     if (!name || !username || !email || !password) {
         throw new ApiError(404, "Please fill all the fields");
     }
 
-    const existingUser = await db.select().from(users).where(or(eq(users.username, username), eq(users.email, email))).limit(1);
+    const existingUser = await db.select().from(users).where(or(eq(users.userName, username), eq(users.email, email))).limit(1);
 
     if (existingUser.length > 0) {
         throw new ApiError(400, "User already exists");
@@ -45,7 +46,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
         username: username,
         email: email,
         password: hashedPassword,
-    }).returning({ id: users.id });
+    }).returning({ id: users.userId });
 
     if (!createNewUser[0]) {
         throw new ApiError(400, "User not created");
@@ -61,12 +62,14 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 
 export const login = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body;
+    const db = req.app.locals.db;
+
 
     if (!email || !password) {
         throw new ApiError(400, "Please provide email and password");
     }
 
-    const user = await db.query.users.findFirst({
+    const user: User = await db.query.users.findFirst({
         where: eq(users.email, email)
     })
 
@@ -89,20 +92,20 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
         path: "/",
     };
 
-    res.cookie("refreshToken", refreshToken(user.id), cookieOptions);
+    res.cookie("refreshToken", refreshToken(user.userId), cookieOptions);
 
     // logger.info("User logged in");
-    console.log(accessToken(user.id));
+    console.log(accessToken(user.userId));
 
     return res.status(200).json(
         new ApiResponses(
             200,
             {
-                id: user.id,
-                username: user.username,
+                id: user.userId,
+                username: user.userName,
                 email: user.email,
                 name: user.name,
-                accessToken: accessToken(user.id),
+                accessToken: accessToken(user.userId),
             },
             "Login successful"
         )
@@ -131,6 +134,8 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
 export const refreshAccessToken = asyncHandler(
     async (req: Request, res: Response) => {
         const token = req.cookies?.refreshToken;
+        const db = req.app.locals.db;
+
 
         if (!token) {
             throw new ApiError(401, "Refresh token missing");
@@ -148,8 +153,8 @@ export const refreshAccessToken = asyncHandler(
 
         console.log(verifiedToken.id);
 
-        const user = await db.query.users.findFirst({
-            where: eq(users.id, verifiedToken.id)
+        const user: User = await db.query.users.findFirst({
+            where: eq(users.userId, verifiedToken.id)
         })
 
         if (!user) {
@@ -160,7 +165,7 @@ export const refreshAccessToken = asyncHandler(
             new ApiResponses(
                 200,
                 {
-                    newAccessToken: accessToken(user.id),
+                    newAccessToken: accessToken(user.userId),
                 },
                 "New access token generated"
             )

@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import asyncHandler from "../utilities/asyncHandler.js";
-import ApiError from "../utilities/apiError.js";
-import ApiResponses from "../utilities/apiResponses.js";
+import asyncHandler from "../../../../libs/utilities/asyncHandler.js";
+import ApiError from "../../../../libs/utilities/apiError.js";
+import ApiResponses from "../../../../libs/utilities/apiResponses.js";
 import jwt from "jsonwebtoken";
 import { eq, or } from "drizzle-orm";
 import bcrypt from "bcryptjs";

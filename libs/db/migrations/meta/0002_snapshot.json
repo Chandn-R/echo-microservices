@@ -1,0 +1,697 @@
+{
+  "id": "4dca2235-7ac3-4f38-8bf6-163be19fa650",
+  "prevId": "c598d752-2b13-4d63-9fd0-d30da0b754b8",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.BlogComments": {
+      "name": "BlogComments",
+      "schema": "",
+      "columns": {
+        "CommentId": {
+          "name": "CommentId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "BlogId": {
+          "name": "BlogId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "UserId": {
+          "name": "UserId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Comment": {
+          "name": "Comment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "CreatedAt": {
+          "name": "CreatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "UpdatedAt": {
+          "name": "UpdatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "BlogComments_BlogId_Blogs_BlogId_fk": {
+          "name": "BlogComments_BlogId_Blogs_BlogId_fk",
+          "tableFrom": "BlogComments",
+          "tableTo": "Blogs",
+          "columnsFrom": [
+            "BlogId"
+          ],
+          "columnsTo": [
+            "BlogId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "BlogComments_UserId_Users_UserId_fk": {
+          "name": "BlogComments_UserId_Users_UserId_fk",
+          "tableFrom": "BlogComments",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.BlogLikes": {
+      "name": "BlogLikes",
+      "schema": "",
+      "columns": {
+        "UserId": {
+          "name": "UserId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "BlogId": {
+          "name": "BlogId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "BlogLikes_UserId_Users_UserId_fk": {
+          "name": "BlogLikes_UserId_Users_UserId_fk",
+          "tableFrom": "BlogLikes",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "BlogLikes_BlogId_Users_UserId_fk": {
+          "name": "BlogLikes_BlogId_Users_UserId_fk",
+          "tableFrom": "BlogLikes",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "BlogId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "BlogLikes_UserId_BlogId_pk": {
+          "name": "BlogLikes_UserId_BlogId_pk",
+          "columns": [
+            "UserId",
+            "BlogId"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.Blogs": {
+      "name": "Blogs",
+      "schema": "",
+      "columns": {
+        "BlogId": {
+          "name": "BlogId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "UserId": {
+          "name": "UserId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Content": {
+          "name": "Content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Likes": {
+          "name": "Likes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "Comments": {
+          "name": "Comments",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "CreatedAt": {
+          "name": "CreatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "UpdatedAt": {
+          "name": "UpdatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Blogs_UserId_Users_UserId_fk": {
+          "name": "Blogs_UserId_Users_UserId_fk",
+          "tableFrom": "Blogs",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.Follows": {
+      "name": "Follows",
+      "schema": "",
+      "columns": {
+        "FollowerId": {
+          "name": "FollowerId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "FollowingId": {
+          "name": "FollowingId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "follower_idx": {
+          "name": "follower_idx",
+          "columns": [
+            {
+              "expression": "FollowerId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "following_idx": {
+          "name": "following_idx",
+          "columns": [
+            {
+              "expression": "FollowingId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "Follows_FollowerId_Users_UserId_fk": {
+          "name": "Follows_FollowerId_Users_UserId_fk",
+          "tableFrom": "Follows",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "FollowerId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "Follows_FollowingId_Users_UserId_fk": {
+          "name": "Follows_FollowingId_Users_UserId_fk",
+          "tableFrom": "Follows",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "FollowingId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "Follows_FollowerId_FollowingId_pk": {
+          "name": "Follows_FollowerId_FollowingId_pk",
+          "columns": [
+            "FollowerId",
+            "FollowingId"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PostComments": {
+      "name": "PostComments",
+      "schema": "",
+      "columns": {
+        "CommentId": {
+          "name": "CommentId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "PostId": {
+          "name": "PostId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "UserId": {
+          "name": "UserId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Comment": {
+          "name": "Comment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "CreatedAt": {
+          "name": "CreatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "UpdatedAt": {
+          "name": "UpdatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "PostComments_PostId_Posts_PostId_fk": {
+          "name": "PostComments_PostId_Posts_PostId_fk",
+          "tableFrom": "PostComments",
+          "tableTo": "Posts",
+          "columnsFrom": [
+            "PostId"
+          ],
+          "columnsTo": [
+            "PostId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "PostComments_UserId_Users_UserId_fk": {
+          "name": "PostComments_UserId_Users_UserId_fk",
+          "tableFrom": "PostComments",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.PostLikes": {
+      "name": "PostLikes",
+      "schema": "",
+      "columns": {
+        "UserId": {
+          "name": "UserId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "PostId": {
+          "name": "PostId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "PostLikes_UserId_Users_UserId_fk": {
+          "name": "PostLikes_UserId_Users_UserId_fk",
+          "tableFrom": "PostLikes",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "PostLikes_PostId_Users_UserId_fk": {
+          "name": "PostLikes_PostId_Users_UserId_fk",
+          "tableFrom": "PostLikes",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "PostId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "PostLikes_UserId_PostId_pk": {
+          "name": "PostLikes_UserId_PostId_pk",
+          "columns": [
+            "UserId",
+            "PostId"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.Posts": {
+      "name": "Posts",
+      "schema": "",
+      "columns": {
+        "PostId": {
+          "name": "PostId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "UserId": {
+          "name": "UserId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Content": {
+          "name": "Content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Description": {
+          "name": "Description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "Likes": {
+          "name": "Likes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "Comments": {
+          "name": "Comments",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "CreatedAt": {
+          "name": "CreatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "UpdatedAt": {
+          "name": "UpdatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "Posts_UserId_Users_UserId_fk": {
+          "name": "Posts_UserId_Users_UserId_fk",
+          "tableFrom": "Posts",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ProfileSettings": {
+      "name": "ProfileSettings",
+      "schema": "",
+      "columns": {
+        "ProfileId": {
+          "name": "ProfileId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "UserId": {
+          "name": "UserId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Bio": {
+          "name": "Bio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "BirthDate": {
+          "name": "BirthDate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "Private": {
+          "name": "Private",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "Country": {
+          "name": "Country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'India'"
+        },
+        "Language": {
+          "name": "Language",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'english'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ProfileSettings_UserId_Users_UserId_fk": {
+          "name": "ProfileSettings_UserId_Users_UserId_fk",
+          "tableFrom": "ProfileSettings",
+          "tableTo": "Users",
+          "columnsFrom": [
+            "UserId"
+          ],
+          "columnsTo": [
+            "UserId"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.Users": {
+      "name": "Users",
+      "schema": "",
+      "columns": {
+        "UserId": {
+          "name": "UserId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "Name": {
+          "name": "Name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "UserName": {
+          "name": "UserName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Email": {
+          "name": "Email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "Password": {
+          "name": "Password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ProfilePicture": {
+          "name": "ProfilePicture",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{\"secure_url\":\"\",\"public_id\":\"\"}'::jsonb"
+        },
+        "CreatedAt": {
+          "name": "CreatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "UpdatedAt": {
+          "name": "UpdatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "Users_UserName_unique": {
+          "name": "Users_UserName_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "UserName"
+          ]
+        },
+        "Users_Email_unique": {
+          "name": "Users_Email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "Email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

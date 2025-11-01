@@ -15,6 +15,20 @@
       "when": 1759936891128,
       "tag": "0001_cold_nightmare",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1761945919167,
+      "tag": "0002_steep_sentinel",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1761977796609,
+      "tag": "0003_calm_boom_boom",
+      "breakpoints": true
     }
   ]
 }

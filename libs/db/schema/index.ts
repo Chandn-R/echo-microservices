@@ -1,12 +1,12 @@
-import { users } from "./users.js";
-import { profileSettings } from "./profileSettings.js";
-import { follows } from "./follows.js";
-import { posts } from "./posts.js";
-import { postComments } from "./postComments.js";
-import { postLikes } from "./postLikes.js";
-import { blogs } from "./blogs.js";
-import { blogComments } from "./blogComments.js";
-import { blogLikes } from "./blogLikes.js";
+import { users } from "./schemas/users.js";
+import { profileSettings } from "./schemas/profileSettings.js";
+import { follows } from "./schemas/follows.js";
+import { posts } from "./schemas/posts.js";
+import { postComments } from "./schemas/postComments.js";
+import { postLikes } from "./schemas/postLikes.js";
+import { blogs } from "./schemas/blogs.js";
+import { blogComments } from "./schemas/blogComments.js";
+import { blogLikes } from "./schemas/blogLikes.js";
 
 import {
     userRelations,
@@ -18,7 +18,7 @@ import {
     blogRelations,
     blogCommentRelations,
     blogLikeRelations,
-} from "./relations.js";
+} from "./schemas/relations.js";
 
 import type {
     InferSelectModel,

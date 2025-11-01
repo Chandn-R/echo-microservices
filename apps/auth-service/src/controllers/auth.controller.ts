@@ -4,9 +4,9 @@ import ApiError from "../utilities/apiError.js";
 import ApiResponses from "../utilities/apiResponses.js";
 import jwt from "jsonwebtoken";
 import { eq, or } from "drizzle-orm";
-import { users, type NewUser, type User } from "../../../../libs/db/schema/index.js";
 import bcrypt from "bcryptjs";
 import type { StringValue } from "ms";
+import { users, type User } from "../../../../libs/db/schema/index.js";
 
 
 const refreshToken = (id: string) => {
@@ -86,7 +86,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 
     const cookieOptions = {
         httpOnly: true,
-        // secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "production",
         sameSite: "strict" as const,
         domain: "localhost",
         path: "/",
